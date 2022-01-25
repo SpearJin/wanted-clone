@@ -80,7 +80,19 @@ const Slide = (props) => {
 
   useEffect(() => {
     setSlideWidth(slideItem.current.getBoundingClientRect().width);
-  }, []);
+    clearInterval(intervalTime.current);
+    intervalTime.current = setInterval(() => {
+      let nextIndex;
+      nextIndex = currentIndex + 1;
+      slideList.current.style.transition = '200ms';
+      setCurrentIndex(nextIndex);
+      setTimeout(() => {
+        slideList.current.style.transition = '0s';
+        nextIndex = nextIndex === slideImg.length - 3 ? 2 : nextIndex;
+        setCurrentIndex(nextIndex);
+      }, 200);
+    }, 2000);
+  }, [currentIndex]);
 
   const changeImage = (e) => {
     let nextIndex;
