@@ -84,19 +84,17 @@ const Slide = (props) => {
     intervalTime.current = setInterval(() => {
       let nextIndex;
       nextIndex = currentIndex + 1;
-      slideList.current.style.transition = '200ms';
-      setCurrentIndex(nextIndex);
-      setTimeout(() => {
-        slideList.current.style.transition = '0s';
-        nextIndex = nextIndex === slideImg.length - 3 ? 2 : nextIndex;
-        setCurrentIndex(nextIndex);
-      }, 200);
+      moveImage(nextIndex);
     }, 2000);
   }, [currentIndex]);
 
-  const changeImage = (e) => {
+  const distingBtn = (e) => {
     let nextIndex;
     nextIndex = e.target.className.includes('btn_pre') ? currentIndex - 1 : currentIndex + 1;
+    moveImage(nextIndex);
+  };
+
+  const moveImage = (nextIndex) => {
     slideList.current.style.transition = '200ms';
     setCurrentIndex(nextIndex);
     setTimeout(() => {
@@ -119,10 +117,10 @@ const Slide = (props) => {
           </li>
         ))}
       </ul>
-      <button className='btn btn_pre' onClick={changeImage}>
+      <button className='btn btn_pre' onClick={distingBtn}>
         이전
       </button>
-      <button className='btn btn_next' onClick={changeImage}>
+      <button className='btn btn_next' onClick={distingBtn}>
         다음
       </button>
     </div>
