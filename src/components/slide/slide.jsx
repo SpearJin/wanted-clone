@@ -74,16 +74,31 @@ const Slide = (props) => {
   const [slideWidth, setSlideWidth] = useState(0);
 
   const innerWidth = window.innerWidth;
+  const slideList = useRef(null);
   const slideItem = useRef(null);
+  let intervalTime = useRef(null);
 
   useEffect(() => {
     setSlideWidth(slideItem.current.getBoundingClientRect().width);
-  });
+  }, []);
+
+  const changeImage = (e) => {
+    let nextIndex;
+    nextIndex = e.target.className.includes('btn_pre') ? currentIndex - 1 : currentIndex + 1;
+    slideList.current.style.transition = '200ms';
+    setCurrentIndex(nextIndex);
+    setTimeout(() => {
+      slideList.current.style.transition = '0s';
+      nextIndex = nextIndex < 2 ? slideImg.length - 3 : nextIndex === slideImg.length - 2 ? 2 : nextIndex;
+      setCurrentIndex(nextIndex);
+    }, 200);
+  };
 
   return (
     <div className='slide'>
       <ul
         className='slide_list'
+        ref={slideList}
         style={{ transform: `translateX(calc(${(innerWidth - slideWidth) / 2}px - ${slideWidth * currentIndex}px))` }}
       >
         {slideImg.map((img) => (
@@ -92,6 +107,12 @@ const Slide = (props) => {
           </li>
         ))}
       </ul>
+      <button className='btn btn_pre' onClick={changeImage}>
+        이전
+      </button>
+      <button className='btn btn_next' onClick={changeImage}>
+        다음
+      </button>
     </div>
   );
 };
