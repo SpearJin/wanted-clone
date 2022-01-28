@@ -81,12 +81,20 @@ const Slide = (props) => {
   useEffect(() => {
     setSlideWidth(slideItem.current.getBoundingClientRect().width);
     clearInterval(intervalTime.current);
+    intervalImage();
+  }, [currentIndex]);
+
+  const intervalImage = () => {
     intervalTime.current = setInterval(() => {
       let nextIndex;
       nextIndex = currentIndex + 1;
       moveImage(nextIndex);
     }, 2000);
-  }, [currentIndex]);
+  };
+
+  const handlerMouseOut = () => {
+    intervalImage();
+  };
 
   const distingBtn = (e) => {
     let nextIndex;
@@ -104,12 +112,18 @@ const Slide = (props) => {
     }, 200);
   };
 
+  const handlerMouseOver = () => {
+    clearInterval(intervalTime.current);
+  };
+
   return (
     <div className='slide'>
       <ul
         className='slide_list'
         ref={slideList}
         style={{ transform: `translateX(calc(${(innerWidth - slideWidth) / 2}px - ${slideWidth * currentIndex}px))` }}
+        onMouseOver={handlerMouseOver}
+        onMouseOut={handlerMouseOut}
       >
         {slideImg.map((img) => (
           <li key={img.id} className='slide_item' ref={slideItem}>
