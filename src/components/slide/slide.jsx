@@ -82,6 +82,18 @@ const Slide = (props) => {
     setSlideWidth(slideItem.current.getBoundingClientRect().width);
     clearInterval(intervalTime.current);
     intervalImage();
+
+    // console.log(slideList.current.children);
+    // const slideImages = [...slideList.current.children];
+    const slideImages = slideList.current.querySelectorAll('.slide_item');
+
+    slideImages.forEach((item, index) => {
+      if (currentIndex === index) {
+        item.classList.add('active');
+      } else {
+        item.classList.remove('active');
+      }
+    });
   }, [currentIndex]);
 
   const intervalImage = () => {
@@ -92,8 +104,14 @@ const Slide = (props) => {
     }, 2000);
   };
 
+  // 마우스 올릴때
   const handlerMouseOut = () => {
     intervalImage();
+  };
+
+  // 마우스 땔떼
+  const handlerMouseOver = () => {
+    clearInterval(intervalTime.current);
   };
 
   const distingBtn = (e) => {
@@ -110,10 +128,6 @@ const Slide = (props) => {
       nextIndex = nextIndex < 2 ? slideImg.length - 3 : nextIndex === slideImg.length - 2 ? 2 : nextIndex;
       setCurrentIndex(nextIndex);
     }, 200);
-  };
-
-  const handlerMouseOver = () => {
-    clearInterval(intervalTime.current);
   };
 
   return (
