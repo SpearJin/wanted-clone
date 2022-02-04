@@ -11,6 +11,7 @@
   list-style: none;
   padding: 0 10px;
   filter: brightness(30%);
+  cursor: pointer;
 }
 
 .slide_item.active {
